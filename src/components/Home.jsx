@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
+import axios from "../helpers/apiCall";
 
 import WeatherContent from "./WeatherContent";
 
-const Home = () => {
+const Home = (props) => {
   const [cityList, setCityList] = useState([]);
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState({});
@@ -34,13 +35,16 @@ const Home = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BE_URL}/users/me`, {
-        credentials: "include",
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BE_URL}/users/me`,
+        {
+          withCredentials: true,
+        }
+      );
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (response.ok) {
+      if (response.statusText === "OK") {
         setUser(data);
         setCityList(data.favorites);
       }
@@ -51,15 +55,32 @@ const Home = () => {
 
   const fetchWeather = async (cityName = "prishtina") => {
     try {
-      const response = await fetch(
+      const { data } = await axios.get(
         `${process.env.REACT_APP_BE_URL}/weather/${cityName}`,
         {
-          credentials: "include",
+          withCredentials: true,
         }
       );
-      const data = await response.json();
 
       setWeatherData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchLogOut = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BE_URL}/users/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.statusText === "OK") {
+        props.history.push("/");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -152,11 +173,10 @@ const Home = () => {
               )}
             </div>
             <Button
-              as="a"
               variant="outline-light"
               className="rounded-pill mt-3"
               style={{ width: "60%", fontWeight: "bold", fontSize: "20px" }}
-              href={`${process.env.REACT_APP_BE_URL}/users/logout`}
+              onClick={() => fetchLogOut()}
             >
               Sing Out
             </Button>

@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "../helpers/apiCall";
 
 const WeatherContent = (props) => {
   const imageBG = (type) => {
@@ -40,18 +41,18 @@ const WeatherContent = (props) => {
 
   const addToFav = async (city) => {
     try {
-      const resp = await fetch(
+      const resp = await axios.post(
         `${process.env.REACT_APP_BE_URL}/users/addToFav`,
+        { favorite: `${city}` },
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ favorite: `${city}` }),
-          credentials: "include",
+
+          withCredentials: true,
         }
       );
-      if (resp.ok) {
+      if (resp.statusText === "OK") {
         props.addCity(city);
       }
     } catch (error) {
@@ -61,18 +62,18 @@ const WeatherContent = (props) => {
 
   const removeFromFav = async (city) => {
     try {
-      const resp = await fetch(
+      const resp = await axios.post(
         `${process.env.REACT_APP_BE_URL}/users/removeFromFav`,
+        { favorite: `${city}` },
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ favorite: `${city}` }),
-          credentials: "include",
+
+          withCredentials: true,
         }
       );
-      if (resp.ok) {
+      if (resp.statusText === "OK") {
         props.removeCity(city);
       }
     } catch (error) {
