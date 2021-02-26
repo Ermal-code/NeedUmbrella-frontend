@@ -52,7 +52,7 @@ body {
   background-color: #1c1c1d;
 
   color: white;
-  height: 80vh;
+  height: 100vh;
 }
 .close {
   color: white;
@@ -80,4 +80,8 @@ body {
   cursor: pointer;
   font-weight: bold;
   text-decoration: underline;
+}
+
+i:hover {
+  cursor: pointer;
 }

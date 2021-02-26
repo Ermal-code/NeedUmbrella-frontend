@@ -38,6 +38,48 @@ const WeatherContent = (props) => {
     }
   };
 
+  const addToFav = async (city) => {
+    try {
+      const resp = await fetch(
+        `${process.env.REACT_APP_BE_URL}/users/addToFav`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ favorite: `${city}` }),
+          credentials: "include",
+        }
+      );
+      if (resp.ok) {
+        props.addCity(city);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeFromFav = async (city) => {
+    try {
+      const resp = await fetch(
+        `${process.env.REACT_APP_BE_URL}/users/removeFromFav`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ favorite: `${city}` }),
+          credentials: "include",
+        }
+      );
+      if (resp.ok) {
+        props.removeCity(city);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const weather = props.weatherData;
   return (
     <div>
@@ -51,7 +93,21 @@ const WeatherContent = (props) => {
         className="modal-content"
       >
         <div className="mBody">
-          <h1 className="text-center mt-3">{weather.name}</h1>
+          <h1 className="text-center mt-3">
+            {weather.name}
+            {"     "}
+            {props.cityList.includes(weather.name) ? (
+              <i
+                className="fas fa-star"
+                onClick={() => removeFromFav(weather.name)}
+              ></i>
+            ) : (
+              <i
+                className="far fa-star"
+                onClick={() => addToFav(weather.name)}
+              ></i>
+            )}
+          </h1>
           <div className="d-flex justify-content-between pt-5">
             <div
               className="border-right border-light pl-2 text-center "
@@ -72,7 +128,7 @@ const WeatherContent = (props) => {
               <h5>{Math.floor(weather.main.feels_like)} &#8451;</h5>
             </div>
           </div>
-          <div className="d-flex px-4 justify-content-between align-items-center">
+          <div className="d-flex px-4 justify-content-between align-items-center mx-5">
             <div className="mt-4 d-flex justify-content-between align-items-center">
               <h5>Sunrise</h5>
               <img
