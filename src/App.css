@@ -1,0 +1,83 @@
+body {
+  background-color: #343a40;
+  overflow-x: hidden;
+}
+
+.headerUmb {
+  background-color: #1c1c1d;
+  letter-spacing: 3px;
+  border-bottom: 4px solid black;
+}
+
+.addCity {
+  background-color: #1c1c1d;
+  border-radius: 40px;
+  /* min-height: 500px; */
+}
+
+.addCity1 {
+  background-color: #1c1c1d;
+  height: 100%;
+  /* min-height: 500px; */
+}
+.cityList ul {
+  border-top: solid 2px rgb(167, 164, 164);
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.cityList li {
+  padding: 12px 0px;
+  border-bottom: 2px rgb(167, 164, 164) solid;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: rgb(167, 164, 164);
+}
+.cityList li:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: 0.4s ease;
+  color: white;
+  border: white 2px solid;
+  background-color: rgba(255, 255, 255, 0.219);
+  font-weight: bold;
+}
+
+.weatherModal {
+  background-color: #5151536b;
+  padding-top: 100px;
+}
+.modal-content {
+  background-color: #1c1c1d;
+
+  color: white;
+  height: 80vh;
+}
+.close {
+  color: white;
+}
+.close:hover {
+  color: white;
+}
+
+.showTemp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mBody {
+  position: absolute;
+  background-color: #000000c5;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.SingUP h6:hover {
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+}
