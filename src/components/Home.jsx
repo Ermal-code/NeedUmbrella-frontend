@@ -3,12 +3,10 @@ import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
 
 import WeatherContent from "./WeatherContent";
 
-const Home = (props) => {
+const Home = () => {
   const [cityList, setCityList] = useState([]);
   const [city, setCity] = useState("");
-  const [show, setShow] = useState(false);
   const [weatherData, setWeatherData] = useState({});
-  const [selectedCity, setSelectedCity] = useState("");
   const [user, setUser] = useState({});
 
   const capitalize = (str) => {
@@ -33,16 +31,6 @@ const Home = (props) => {
     fetchUser();
     fetchWeather();
   }, []);
-
-  useEffect(() => {
-    if (weatherData.message) {
-      setCityList((prevState) =>
-        prevState.filter(
-          (c) => c.toLocaleLowerCase() !== selectedCity.toLocaleLowerCase()
-        )
-      );
-    }
-  }, [weatherData]);
 
   const fetchUser = async () => {
     try {
@@ -91,7 +79,7 @@ const Home = (props) => {
             className="d-flex justify-content-center"
             style={{ background: "#1c1c1d" }}
           >
-            <InputGroup className="my-3 w-50">
+            <InputGroup className="my-3 mx-5 ">
               <FormControl
                 placeholder="Search city..."
                 aria-label="Search city..."
@@ -102,7 +90,10 @@ const Home = (props) => {
               <InputGroup.Append>
                 <Button
                   variant="outline-light"
-                  onClick={() => fetchWeather(city)}
+                  onClick={() => {
+                    fetchWeather(city);
+                    setCity("");
+                  }}
                 >
                   Search
                 </Button>
@@ -123,18 +114,16 @@ const Home = (props) => {
         <Col md={4} className="text-light position-relative">
           <div className="addCity1 p-2 pb-5 mb-3">
             <div className="cityList">
-              <h4 className="text-center">Favorites</h4>
+              <h4 className="text-center">Favorite Cities</h4>
               <ul className="mt-4">
                 {cityList.map((theCity, index) => (
                   <li
                     key={`city${index}`}
                     onClick={(e) => {
-                      setSelectedCity(e.currentTarget.innerText);
                       fetchWeather(e.currentTarget.innerText);
-                      setShow(true);
                     }}
                   >
-                    {capitalize(theCity)}
+                    {theCity}
                   </li>
                 ))}
               </ul>
@@ -144,11 +133,29 @@ const Home = (props) => {
             className="position-absolute text-center border-top border-light"
             style={{ bottom: 10, right: 0, left: 0 }}
           >
+            <div className="d-flex justify-content-center align-items-center mt-2">
+              <img
+                className="mr-5"
+                src={user.img}
+                style={{
+                  borderRadius: "50%",
+                  height: "50px",
+                  objectFit: "cover",
+                }}
+              />
+              {user.name && (
+                <div>
+                  <h4>
+                    {capitalize(user.name)} {capitalize(user.lastName)}
+                  </h4>
+                </div>
+              )}
+            </div>
             <Button
               as="a"
               variant="outline-light"
               className="rounded-pill mt-3"
-              style={{ width: "80%" }}
+              style={{ width: "60%", fontWeight: "bold", fontSize: "20px" }}
               href={`${process.env.REACT_APP_BE_URL}/users/logout`}
             >
               Sing Out

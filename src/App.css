@@ -52,7 +52,7 @@ body {
   background-color: #1c1c1d;
 
   color: white;
-  height: 100vh;
+  min-height: 90vh;
 }
 .close {
   color: white;
