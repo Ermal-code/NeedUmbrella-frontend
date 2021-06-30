@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { ThemeContext, Themes } from "../contexts/theme";
 
 const Login = (props) => {
@@ -9,6 +9,7 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [error, setError] = useState(null);
 
   const singInOrSingUp = async (e) => {
     e.preventDefault();
@@ -41,7 +42,8 @@ const Login = (props) => {
         props.setIsLogedIn();
         props.history.push("/home");
       } else {
-        alert("Something went wrong");
+        const err = await response.json();
+        setError(err);
       }
     } catch (error) {
       console.log(error);
@@ -107,6 +109,7 @@ const Login = (props) => {
                   onChange={(e) => setPassword(e.currentTarget.value)}
                 />
               </Form.Group>
+              {error && <Alert variant="danger">{error.message}</Alert>}
 
               <div className="d-flex justify-content-center my-4">
                 <Button variant="primary" type="submit">
