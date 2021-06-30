@@ -4,7 +4,7 @@ const FavoriteCities = ({ cityList, fetchWeather }) => {
   return (
     <div className="p-2 pb-5 mb-3">
       <div className="cityList">
-        <h4 className="text-center">Favorite Cities</h4>
+        <h4 className="text-center mt-3">Favorite Cities</h4>
         <ul className="mt-4">
           {cityList.map((theCity, index) => (
             <li

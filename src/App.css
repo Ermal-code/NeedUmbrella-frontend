@@ -134,8 +134,9 @@ i:hover {
   background: whitesmoke;
   color: rgb(162, 161, 161);
   text-align: left;
-  top: -80px;
-  right: 100px;
+  top: -90px;
+  right: 0px;
+  left: -80px;
   border-radius: 5px;
 }
 

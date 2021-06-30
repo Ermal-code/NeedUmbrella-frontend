@@ -22,7 +22,7 @@ const UserBox = ({
 
   return (
     <div className="userBox text-center border-top border-light">
-      <div className="position-relative d-flex justify-content-center align-items-center mt-2">
+      <div className="d-flex justify-content-center align-items-center mt-2">
         <img
           className="mr-5 stay"
           src={user.img}
@@ -39,25 +39,27 @@ const UserBox = ({
             </h4>
           </div>
         )}
-        <i
-          className="fas fa-ellipsis-v ml-5"
-          style={{ fontSize: "24px" }}
-          onClick={() => setShowEditOrDelete(!showEditOrDelete)}
-        ></i>
-        {showEditOrDelete && (
-          <div className="editOrDeleteBox">
-            <ul>
-              {["Edit Account", "Delete Account"].map((el, index) => (
-                <li
-                  key={`${el}${index}`}
-                  onClick={() => handleShowAndRemoveBox(index)}
-                >
-                  {el}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div className="position-relative">
+          <i
+            className="fas fa-ellipsis-v ml-5 "
+            style={{ fontSize: "24px" }}
+            onClick={() => setShowEditOrDelete(!showEditOrDelete)}
+          ></i>
+          {showEditOrDelete && (
+            <div className="editOrDeleteBox stay shadow">
+              <ul>
+                {["Edit Account", "Delete Account"].map((el, index) => (
+                  <li
+                    key={`${el}${index}`}
+                    onClick={() => handleShowAndRemoveBox(index)}
+                  >
+                    {el}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
       <Button
         variant="outline-light"
