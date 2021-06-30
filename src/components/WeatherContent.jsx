@@ -13,7 +13,7 @@ const WeatherContent = (props) => {
     } else if (type === "Haze") {
       url = `url(https://p0.pikist.com/photos/34/668/fog-trueb-trees-landscape-nature-haze-weather-forest-light.jpg)`;
     } else if (type === "Rain") {
-      url = `url(https://bluestemamphitheater.org/wp-content/uploads/blog-rain-or-shine.jpg)`;
+      url = `url(https://wpcdn.us-east-1.vip.tn-cloud.net/www.myneworleans.com/content/uploads/2021/04/r/y/gettyimages-1257951336.jpg)`;
     }
     return url;
   };
@@ -91,7 +91,7 @@ const WeatherContent = (props) => {
           backgroundSize: "cover",
           position: "relative",
         }}
-        className="modal-content"
+        className="weatherContent stay"
       >
         <div className="mBody">
           <h1 className="text-center mt-3">

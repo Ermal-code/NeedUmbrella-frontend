@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
 import axios from "../helpers/apiCall";
+import FavoriteCities from "./FavoriteCities";
 
 import WeatherContent from "./WeatherContent";
 
@@ -79,6 +80,8 @@ const Home = (props) => {
       );
 
       if (response.statusText === "OK") {
+        localStorage.setItem("LoggedIn", false);
+        props.setIsLogedIn();
         props.history.push("/");
       }
     } catch (error) {
@@ -88,9 +91,6 @@ const Home = (props) => {
 
   return (
     <>
-      <div className="headerUmb  text-light text-center p-2">
-        <h1>DO I NEED AN UMBREALLA TODAY</h1>
-      </div>
       <Row className="no-gutters">
         <Col
           md={8}
@@ -100,7 +100,7 @@ const Home = (props) => {
             className="d-flex justify-content-center"
             style={{ background: "#1c1c1d" }}
           >
-            <InputGroup className="my-3 mx-5 ">
+            <InputGroup className="my-3 mx-5 stay">
               <FormControl
                 placeholder="Search city..."
                 aria-label="Search city..."
@@ -115,6 +115,7 @@ const Home = (props) => {
                     fetchWeather(city);
                     setCity("");
                   }}
+                  disabled={city === ""}
                 >
                   Search
                 </Button>
@@ -132,31 +133,16 @@ const Home = (props) => {
             )}
           </div>
         </Col>
-        <Col md={4} className="text-light position-relative">
-          <div className="addCity1 p-2 pb-5 mb-3">
-            <div className="cityList">
-              <h4 className="text-center">Favorite Cities</h4>
-              <ul className="mt-4">
-                {cityList.map((theCity, index) => (
-                  <li
-                    key={`city${index}`}
-                    onClick={(e) => {
-                      fetchWeather(e.currentTarget.innerText);
-                    }}
-                  >
-                    {theCity}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div
-            className="position-absolute text-center border-top border-light"
-            style={{ bottom: 10, right: 0, left: 0 }}
-          >
+        <Col
+          md={4}
+          className="text-light position-relative"
+          style={{ background: "#1c1c1d" }}
+        >
+          <FavoriteCities cityList={cityList} fetchWeather={fetchWeather} />
+          <div className="userBox text-center border-top border-light">
             <div className="d-flex justify-content-center align-items-center mt-2">
               <img
-                className="mr-5"
+                className="mr-5 stay"
                 src={user.img}
                 style={{
                   borderRadius: "50%",

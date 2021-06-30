@@ -1,6 +1,22 @@
 body {
-  background-color: #343a40;
   overflow-x: hidden;
+}
+
+.dark-mode,
+.light-mode {
+  min-height: 100vh;
+}
+
+.dark-mode {
+  background-color: #343a40;
+}
+
+.light-mode {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.light-mode .stay {
+  filter: invert(1) hue-rotate(180deg);
 }
 
 .headerUmb {
@@ -9,17 +25,11 @@ body {
   border-bottom: 4px solid black;
 }
 
-.addCity {
+.formWrapper {
   background-color: #1c1c1d;
   border-radius: 40px;
-  /* min-height: 500px; */
 }
 
-.addCity1 {
-  background-color: #1c1c1d;
-  height: 100%;
-  /* min-height: 500px; */
-}
 .cityList ul {
   border-top: solid 2px rgb(167, 164, 164);
   padding: 0;
@@ -44,21 +54,23 @@ body {
   font-weight: bold;
 }
 
-.weatherModal {
-  background-color: #5151536b;
-  padding-top: 100px;
-}
-.modal-content {
+.weatherContent {
   background-color: #1c1c1d;
-
   color: white;
   min-height: 90vh;
 }
-.close {
-  color: white;
+
+.userBox {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
-.close:hover {
-  color: white;
+
+@media (max-width: 767px) {
+  .userBox {
+    position: relative;
+  }
 }
 
 .showTemp {

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { ThemeContext, Themes } from "../contexts/theme";
 
 const Login = (props) => {
+  const [theme] = useContext(ThemeContext);
   const [singUp, setSingUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +21,7 @@ const Login = (props) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, password }),
+          credentials: "include",
         });
       } else {
         response = await fetch(
@@ -29,10 +32,13 @@ const Login = (props) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ email, password, name, lastName }),
+            credentials: "include",
           }
         );
       }
       if (response.ok) {
+        localStorage.setItem("LoggedIn", true);
+        props.setIsLogedIn();
         props.history.push("/home");
       } else {
         alert("Something went wrong");
@@ -43,26 +49,23 @@ const Login = (props) => {
   };
   return (
     <div>
-      <div className="headerUmb  text-light text-center p-2">
-        <h1>DO I NEED AN UMBREALLA TODAY</h1>
-      </div>
       <Row className="mt-5">
         <Col
           xs={{ span: 10, offset: 1 }}
           sm={{ span: 8, offset: 2 }}
           md={{ span: 6, offset: 3 }}
           lg={{ span: 4, offset: 4 }}
-          className="text-light"
+          className={`${theme === Themes.dark ? "text-light" : "text-dark"}`}
         >
-          <div className="addCity mt-5 mb-3 p-2">
-            <form onSubmit={singInOrSingUp} className="px-4 pt-5 mx-3">
+          <div className="formWrapper mt-5 mb-3 p-2">
+            <form onSubmit={singInOrSingUp} className="px-4 pt-5 mx-3 stay">
               {singUp && (
                 <>
                   <Form.Group>
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Password"
+                      placeholder="Name"
                       value={name}
                       onChange={(e) => setName(e.currentTarget.value)}
                     />
@@ -72,7 +75,7 @@ const Login = (props) => {
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Password"
+                      placeholder="Last name"
                       value={lastName}
                       onChange={(e) => setLastName(e.currentTarget.value)}
                     />
@@ -88,9 +91,11 @@ const Login = (props) => {
                   value={email}
                   onChange={(e) => setEmail(e.currentTarget.value)}
                 />
-                <Form.Text className="text-danger">
-                  We'll never share your email with anyone else.
-                </Form.Text>
+                {!singUp && (
+                  <Form.Text className="text-danger">
+                    We'll never share your email with anyone else.
+                  </Form.Text>
+                )}
               </Form.Group>
 
               <Form.Group>
@@ -117,16 +122,14 @@ const Login = (props) => {
               </div>
             </form>
             <div className="border-top border-muted text-center">
-              <h6 className="text-center text-success mt-3">
-                Or Sing In with Google
-              </h6>
               <a href={`${process.env.REACT_APP_BE_URL}/users/googleLogin`}>
                 <Button
                   variant="success"
-                  className="my-2 rounded-pill"
+                  className="mt-4 mb-5 rounded-pill stay"
                   style={{ width: "80%" }}
+                  onClick={() => localStorage.setItem("LoggedIn", true)}
                 >
-                  Google
+                  Sing in with Google
                 </Button>
               </a>
             </div>
