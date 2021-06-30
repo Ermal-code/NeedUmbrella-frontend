@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { InputGroup, FormControl, Button } from "react-bootstrap";
+import { ThemeContext, Themes } from "../contexts/theme";
 
 const SearchCity = ({ city, setCity, fetchWeather }) => {
+  const [theme] = useContext(ThemeContext);
   return (
     <div
       className="d-flex justify-content-center"
@@ -17,7 +19,7 @@ const SearchCity = ({ city, setCity, fetchWeather }) => {
         />
         <InputGroup.Append>
           <Button
-            variant="outline-light"
+            variant={theme === Themes.dark ? "outline-light" : "outline-dark"}
             onClick={() => {
               fetchWeather(city);
               setCity("");

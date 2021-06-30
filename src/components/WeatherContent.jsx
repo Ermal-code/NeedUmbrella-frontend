@@ -84,87 +84,93 @@ const WeatherContent = (props) => {
   const weather = props.weatherData;
   return (
     <div>
-      <div
-        style={{
-          backgroundImage: imageBG(weather.weather[0].main),
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          position: "relative",
-        }}
-        className="weatherContent stay"
-      >
-        <div className="mBody">
-          <h1 className="text-center mt-3">
-            {weather.name}
-            {"     "}
-            {props.cityList.includes(weather.name) ? (
-              <i
-                className="fas fa-star"
-                onClick={() => removeFromFav(weather.name)}
-              ></i>
-            ) : (
-              <i
-                className="far fa-star"
-                onClick={() => addToFav(weather.name)}
-              ></i>
-            )}
-          </h1>
-          <div className="d-flex justify-content-between pt-5">
-            <div
-              className="border-right border-light pl-2 text-center "
-              style={{ width: "33%" }}
-            >
-              <h5>Max</h5>
-              <h5>{Math.floor(weather.main.temp_max)} &#8451;</h5>
+      {props.error ? (
+        <div className="weatherContent d-flex justify-content-center align-items-center">
+          <h1>{props.error.message}</h1>
+        </div>
+      ) : (
+        <div
+          style={{
+            backgroundImage: imageBG(weather.weather[0].main),
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            position: "relative",
+          }}
+          className="weatherContent stay"
+        >
+          <div className="mBody">
+            <h1 className="text-center mt-3">
+              {weather.name}
+              {"     "}
+              {props.cityList.includes(weather.name) ? (
+                <i
+                  className="fas fa-star"
+                  onClick={() => removeFromFav(weather.name)}
+                ></i>
+              ) : (
+                <i
+                  className="far fa-star"
+                  onClick={() => addToFav(weather.name)}
+                ></i>
+              )}
+            </h1>
+            <div className="d-flex justify-content-between pt-5">
+              <div
+                className="border-right border-light pl-2 text-center "
+                style={{ width: "33%" }}
+              >
+                <h5>Max</h5>
+                <h5>{Math.floor(weather.main.temp_max)} &#8451;</h5>
+              </div>
+              <div
+                className="border-right border-light pl-2  text-center"
+                style={{ width: "33%" }}
+              >
+                <h5>Min</h5>
+                <h5>{Math.floor(weather.main.temp_min)} &#8451;</h5>
+              </div>
+              <div className="text-center pl-2" style={{ width: "33%" }}>
+                <h5>Feels Like</h5>
+                <h5>{Math.floor(weather.main.feels_like)} &#8451;</h5>
+              </div>
             </div>
-            <div
-              className="border-right border-light pl-2  text-center"
-              style={{ width: "33%" }}
-            >
-              <h5>Min</h5>
-              <h5>{Math.floor(weather.main.temp_min)} &#8451;</h5>
-            </div>
-            <div className="text-center pl-2" style={{ width: "33%" }}>
-              <h5>Feels Like</h5>
-              <h5>{Math.floor(weather.main.feels_like)} &#8451;</h5>
-            </div>
-          </div>
-          <div className="d-flex px-4 justify-content-between align-items-center mx-5">
-            <div className="mt-4 d-flex justify-content-between align-items-center">
-              <h5>Sunrise</h5>
-              <img
-                height="45px"
-                src={`https://openweathermap.org/img/wn/01d@2x.png`}
-              />
+            <div className="d-flex px-4 justify-content-between align-items-center mx-5">
+              <div className="mt-4 d-flex justify-content-between align-items-center">
+                <h5>Sunrise</h5>
+                <img
+                  height="45px"
+                  src={`https://openweathermap.org/img/wn/01d@2x.png`}
+                />
 
-              <h5>{convertToDate(weather.sys.sunrise)}</h5>
-            </div>
-            <div className="mt-4  d-flex justify-content-between align-items-center">
-              <h5>Sunset</h5>
-              <img
-                height="45px"
-                src={`https://openweathermap.org/img/wn/01n@2x.png`}
-              />
+                <h5>{convertToDate(weather.sys.sunrise)}</h5>
+              </div>
+              <div className="mt-4  d-flex justify-content-between align-items-center">
+                <h5>Sunset</h5>
+                <img
+                  height="45px"
+                  src={`https://openweathermap.org/img/wn/01n@2x.png`}
+                />
 
-              <h5>{convertToDate(weather.sys.sunset)}</h5>
+                <h5>{convertToDate(weather.sys.sunset)}</h5>
+              </div>
             </div>
-          </div>
-          <div>
-            <h3 className="text-center mt-5">Temperature</h3>
+            <div>
+              <h3 className="text-center mt-5">Temperature</h3>
 
-            <div className="showTemp">
-              <h4 style={{ fontSize: "90px", marginBottom: 0 }}>
-                {Math.floor(weather.main.temp)} &#8451;
-              </h4>
-              <img
-                height="150px"
-                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-              />
+              <div className="showTemp">
+                <h4 style={{ fontSize: "90px", marginBottom: 0 }}>
+                  {Math.floor(weather.main.temp)} &#8451;
+                </h4>
+                <img
+                  height="150px"
+                  src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                />
+              </div>
+              <h4 className="text-center">{weather.weather[0].main}</h4>
             </div>
-            <h4 className="text-center">{weather.weather[0].main}</h4>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

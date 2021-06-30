@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import axios from "../helpers/apiCall";
 import FavoriteCities from "./FavoriteCities";
+import Loader from "./Loader";
 import SearchCity from "./SearchCity";
 import UserBox from "./UserBox";
-
 import WeatherContent from "./WeatherContent";
 
 const Home = (props) => {
@@ -12,6 +12,8 @@ const Home = (props) => {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState({});
   const [user, setUser] = useState({});
+  const [loader, setLoader] = useState(true);
+  const [error, setError] = useState(null);
 
   const capitalize = (str) => {
     let str2 = str.slice(0, 1).toUpperCase() + str.slice(1);
@@ -31,10 +33,6 @@ const Home = (props) => {
       )
     );
   };
-  useEffect(() => {
-    fetchUser();
-    fetchWeather();
-  }, []);
 
   const fetchUser = async () => {
     try {
@@ -50,24 +48,31 @@ const Home = (props) => {
       if (response.statusText === "OK") {
         setUser(data);
         setCityList(data.favorites);
+        fetchWeather(data.favorites[0]);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const fetchWeather = async (cityName = "prishtina") => {
+  const fetchWeather = async (cityName) => {
     try {
-      const { data } = await axios.get(
+      setLoader(true);
+      const response = await axios.get(
         `${process.env.REACT_APP_BE_URL}/weather/${cityName}`,
         {
           withCredentials: true,
         }
       );
-
-      setWeatherData(data);
+      if (response.statusText === "OK") {
+        setError(null);
+        setWeatherData(response.data);
+        setLoader(false);
+      }
     } catch (error) {
-      console.log(error);
+      const err = error.response.data;
+      setError(err);
+      setLoader(false);
     }
   };
 
@@ -91,6 +96,10 @@ const Home = (props) => {
     }
   };
 
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <>
       <Row className="no-gutters">
@@ -104,12 +113,17 @@ const Home = (props) => {
             fetchWeather={fetchWeather}
           />
           <div className="border-top border-light">
-            {weatherData.weather && (
+            {loader ? (
+              <div className="weatherContent">
+                <Loader />
+              </div>
+            ) : (
               <WeatherContent
                 weatherData={weatherData}
                 cityList={cityList}
                 addCity={addCity}
                 removeCity={removeCity}
+                error={error}
               />
             )}
           </div>
