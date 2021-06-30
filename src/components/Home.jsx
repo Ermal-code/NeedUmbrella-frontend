@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import axios from "../helpers/apiCall";
 import FavoriteCities from "./FavoriteCities";
+import SearchCity from "./SearchCity";
+import UserBox from "./UserBox";
 
 import WeatherContent from "./WeatherContent";
 
@@ -96,32 +98,11 @@ const Home = (props) => {
           md={8}
           className="text-light border-right border-bottom border-light"
         >
-          <div
-            className="d-flex justify-content-center"
-            style={{ background: "#1c1c1d" }}
-          >
-            <InputGroup className="my-3 mx-5 stay">
-              <FormControl
-                placeholder="Search city..."
-                aria-label="Search city..."
-                aria-describedby="basic-addon2"
-                value={city}
-                onChange={(e) => setCity(e.currentTarget.value)}
-              />
-              <InputGroup.Append>
-                <Button
-                  variant="outline-light"
-                  onClick={() => {
-                    fetchWeather(city);
-                    setCity("");
-                  }}
-                  disabled={city === ""}
-                >
-                  Search
-                </Button>
-              </InputGroup.Append>
-            </InputGroup>
-          </div>
+          <SearchCity
+            city={city}
+            setCity={setCity}
+            fetchWeather={fetchWeather}
+          />
           <div className="border-top border-light">
             {weatherData.weather && (
               <WeatherContent
@@ -139,34 +120,11 @@ const Home = (props) => {
           style={{ background: "#1c1c1d" }}
         >
           <FavoriteCities cityList={cityList} fetchWeather={fetchWeather} />
-          <div className="userBox text-center border-top border-light">
-            <div className="d-flex justify-content-center align-items-center mt-2">
-              <img
-                className="mr-5 stay"
-                src={user.img}
-                style={{
-                  borderRadius: "50%",
-                  height: "50px",
-                  objectFit: "cover",
-                }}
-              />
-              {user.name && (
-                <div>
-                  <h4>
-                    {capitalize(user.name)} {capitalize(user.lastName)}
-                  </h4>
-                </div>
-              )}
-            </div>
-            <Button
-              variant="outline-light"
-              className="rounded-pill mt-3"
-              style={{ width: "60%", fontWeight: "bold", fontSize: "20px" }}
-              onClick={() => fetchLogOut()}
-            >
-              Sing Out
-            </Button>
-          </div>
+          <UserBox
+            user={user}
+            capitalize={capitalize}
+            fetchLogOut={fetchLogOut}
+          />
         </Col>
       </Row>
       <div style={{ background: "#1c1c1d", height: "40px" }}></div>
