@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import axios from "../helpers/apiCall";
+import EditOrDeleteModal from "./EditOrDeleteModal";
 import FavoriteCities from "./FavoriteCities";
 import Loader from "./Loader";
 import SearchCity from "./SearchCity";
@@ -14,6 +15,11 @@ const Home = (props) => {
   const [user, setUser] = useState({});
   const [loader, setLoader] = useState(true);
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [editProfile, setEditProfile] = useState(null);
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
 
   const capitalize = (str) => {
     let str2 = str.slice(0, 1).toUpperCase() + str.slice(1);
@@ -102,6 +108,12 @@ const Home = (props) => {
 
   return (
     <>
+      <EditOrDeleteModal
+        showModal={showModal}
+        handleClose={handleClose}
+        editProfile={editProfile}
+        user={user}
+      />
       <Row className="no-gutters">
         <Col
           md={8}
@@ -138,6 +150,8 @@ const Home = (props) => {
             user={user}
             capitalize={capitalize}
             fetchLogOut={fetchLogOut}
+            handleShow={handleShow}
+            setEditProfile={setEditProfile}
           />
         </Col>
       </Row>
