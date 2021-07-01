@@ -27,6 +27,19 @@ body {
   background-color: #1c1c1d;
   letter-spacing: 3px;
   border-bottom: 4px solid black;
+  position: relative;
+}
+
+.togglerPosition {
+  position: absolute;
+  top: 30%;
+  left: 30px;
+}
+
+@media (max-width: 1059px) {
+  .togglerPosition {
+    position: relative;
+  }
 }
 
 .formWrapper {
@@ -113,7 +126,7 @@ i:hover {
 .loader img {
   height: 60px;
   width: 60px;
-  animation: spin infinite linear 2s;
+  animation: spin infinite linear 1.3s;
 }
 
 @keyframes spin {

@@ -117,7 +117,12 @@ const Login = (props) => {
                 </Button>
               </div>
               <div className="SingUP text-center text-warning">
-                <h6 onClick={() => setSingUp(!singUp)}>
+                <h6
+                  onClick={() => {
+                    setSingUp(!singUp);
+                    setError(null);
+                  }}
+                >
                   {!singUp
                     ? "Don't have account - Sing Up!"
                     : "Already have account - Sing In!"}

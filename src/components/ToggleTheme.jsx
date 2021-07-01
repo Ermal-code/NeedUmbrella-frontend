@@ -5,8 +5,6 @@ import { ThemeContext, Themes } from "../contexts/theme";
 export default function ToggleTheme() {
   const [theme, setTheme] = useContext(ThemeContext);
 
-  console.log(theme);
-
   return (
     <Form>
       <Form.Check

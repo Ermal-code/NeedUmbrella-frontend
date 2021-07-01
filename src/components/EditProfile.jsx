@@ -1,11 +1,37 @@
-import React, { useState } from "react";
-import { Form, Col } from "react-bootstrap";
+import React, { useRef, useState } from "react";
+import { useEffect } from "react";
+import { Form, Col, Button } from "react-bootstrap";
 
-const EditProfile = ({ user }) => {
-  const [email, setEmail] = useState(user.email);
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState(user.name);
-  const [lastName, setLastName] = useState(user.lastName);
+const EditProfile = ({
+  img,
+  setPost,
+  email,
+  password,
+  name,
+  lastName,
+  setEmail,
+  setPassword,
+  setName,
+  setLastName,
+  loading,
+}) => {
+  const [base64photo, setBase64photo] = useState(img);
+
+  const inputRef = useRef();
+
+  const fileUploadHandler = (e) => {
+    const formData = new FormData();
+    formData.append("picture", e.target.files[0]);
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setBase64photo(reader.result);
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
+    setPost(formData);
+  };
+
   return (
     <div>
       <Form>
@@ -49,6 +75,32 @@ const EditProfile = ({ user }) => {
             />
           </Form.Group>
         </Form.Row>
+        <div className="d-flex justify-content-center mt-4">
+          <img
+            alt="Upload"
+            id="imageUpload"
+            src={base64photo}
+            height="300px"
+            style={{ objectFit: "Cover", maxWidth: "400px" }}
+          />
+        </div>
+        <Form.Group>
+          <Form.Control
+            type="file"
+            id="fileUpload"
+            onChange={fileUploadHandler}
+            style={{ display: "none" }}
+            ref={inputRef}
+          />
+          <Button
+            className="rounded-pill mr-3 my-3 p-1 px-4 w-100"
+            variant="info"
+            onClick={() => inputRef.current.click()}
+            disabled={loading}
+          >
+            Upload Image
+          </Button>
+        </Form.Group>
       </Form>
     </div>
   );

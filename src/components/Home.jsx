@@ -12,7 +12,7 @@ const Home = (props) => {
   const [cityList, setCityList] = useState([]);
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState({});
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [loader, setLoader] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -108,12 +108,16 @@ const Home = (props) => {
 
   return (
     <>
-      <EditOrDeleteModal
-        showModal={showModal}
-        handleClose={handleClose}
-        editProfile={editProfile}
-        user={user}
-      />
+      {user && (
+        <EditOrDeleteModal
+          showModal={showModal}
+          handleClose={handleClose}
+          editProfile={editProfile}
+          user={user}
+          fetchUser={fetchUser}
+          history={props.history}
+        />
+      )}
       <Row className="no-gutters">
         <Col
           md={8}
@@ -146,13 +150,15 @@ const Home = (props) => {
           style={{ background: "#1c1c1d" }}
         >
           <FavoriteCities cityList={cityList} fetchWeather={fetchWeather} />
-          <UserBox
-            user={user}
-            capitalize={capitalize}
-            fetchLogOut={fetchLogOut}
-            handleShow={handleShow}
-            setEditProfile={setEditProfile}
-          />
+          {user && (
+            <UserBox
+              user={user}
+              capitalize={capitalize}
+              fetchLogOut={fetchLogOut}
+              handleShow={handleShow}
+              setEditProfile={setEditProfile}
+            />
+          )}
         </Col>
       </Row>
       <div style={{ background: "#1c1c1d", height: "40px" }}></div>
