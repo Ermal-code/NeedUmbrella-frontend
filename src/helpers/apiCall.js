@@ -1,15 +1,15 @@
-import axios from "axios";
-import createAuthRefreshInterceptor from "axios-auth-refresh";
+import axios from "axios"
+import createAuthRefreshInterceptor from "axios-auth-refresh"
 
-const refreshAuthLogic = (failedRequest) =>
-  axios({
-    url: `${process.env.REACT_APP_BE_URL}/users/refreshToken`,
-    withCredentials: true,
-    method: "post",
-  }).then((tokenRefreshResponse) => {
-    return Promise.resolve();
-  });
+const refreshAuthLogic = () =>
+    axios({
+        url: `${process.env.REACT_APP_BE_URL}/users/refreshToken`,
+        withCredentials: true,
+        method: "post",
+    })
+        .then(() => Promise.resolve())
+        .catch(() => Promise.reject())
 
-createAuthRefreshInterceptor(axios, refreshAuthLogic);
+createAuthRefreshInterceptor(axios, refreshAuthLogic)
 
-export default axios;
+export default axios
