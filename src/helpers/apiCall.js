@@ -8,7 +8,11 @@ const refreshAuthLogic = () =>
         method: "post",
     })
         .then(() => Promise.resolve())
-        .catch(() => Promise.reject())
+        .catch((err) => {
+            Promise.reject(err)
+            localStorage.setItem("LoggedIn", "false")
+            window.location.reload()
+        })
 
 createAuthRefreshInterceptor(axios, refreshAuthLogic)
 
